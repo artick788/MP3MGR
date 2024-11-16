@@ -19,10 +19,20 @@ class MainWindow(QMainWindow):
 
     def open_folder(self):
         folder = QFileDialog.getExistingDirectory(self, "Select Folder")
-        self.ui.SaveFolderLabel.setText(folder + "/")
+        self.ui.SaveFolderLabel.setText(folder)
 
     def download(self):
-        print("Download")
+        file = MusicFile()
+        file.artist = self.ui.ArtistInput.text()
+        file.songname = self.ui.SongInput.text()
+        file.album = self.ui.AlbumInput_2.text()
+        file.genre = self.ui.GenreInput.text()
+
+        url = self.ui.URLInput.text()
+        output_dir = self.ui.SaveFolderLabel.text()
+
+        self.ytd.download_from_youtube(url, file, output_dir)
+        self.reset()
 
     def reset(self):
         if self.ui.ResetArtist.isChecked():

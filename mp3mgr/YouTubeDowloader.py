@@ -2,6 +2,9 @@ import uuid
 import yt_dlp
 import copy, os, shutil
 from concurrent.futures import ThreadPoolExecutor
+import taglib
+
+import ffmpeg
 
 
 class MusicFile:
@@ -13,6 +16,30 @@ class MusicFile:
 
     def __str__(self):
         return self.artist + " - " + self.song + " - " + self.album + " - " + self.genre
+
+    def _get_value(self, field: str, f) -> str:
+        if field in f.tags:
+            l = f.tags[field]
+            if len(l) > 0:
+                return str(l[0])
+
+        return ""
+
+    def read_tags(self, file_path: str):
+        f = taglib.File(file_path)
+        self.artist = self._get_value("ARTIST", f)
+        self.song = self._get_value("TITLE", f)
+        self.album = self._get_value("ALBUM", f)
+        self.genre = self._get_value("GENRE", f)
+
+    def save_tags(self, file_path: str):
+        f = taglib.File(file_path)
+        f.tags["ARTIST"] = self.artist
+        f.tags["TITLE"] = self.song
+        f.tags["ALBUM"] = self.album
+        f.tags["GENRE"] = self.genre
+
+        f.save()
 
 
 class YouTubeDownloader:
@@ -50,12 +77,56 @@ class YouTubeDownloader:
         except:
             raise Exception("Error copying binary: " + binary)
 
-    def _do_download(self, url: str, music_file: MusicFile, output_dir: str = "./"):
-        pass
+    def _do_download(self, url: str, music_file: MusicFile, output_dir: str = ""):
+        rand = str(uuid.uuid4())
+        output_file: str = output_dir + "/" + music_file.artist + " - " + music_file.song + "." + self.FILE_FORMAT
 
+        options = {
+            'format': 'bestaudio/best',
+            'keepvideo': False,
+            'outtmpl': rand + '.%(ext)s',
+            'addmetadata': True,
+            'extractaudio': True,
+            'prefer-ffmpeg': True,
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': self.FILE_FORMAT,
+                'preferredquality': '320',
+            }],
+        }
+        print("Downloading: " + url)
+        tries: int = 4
+        while tries > 0:
+            try:
+                with yt_dlp.YoutubeDL(options) as ydl:
+                    ydl.download([url])
+                    stream = ffmpeg.input(rand + '.m4a')
+                    stream = ffmpeg.output(stream, rand + "." + self.FILE_FORMAT)
 
-    def download_from_youtube(self, url: str, music_file: MusicFile, output_dir: str = "./"):
-        pass
+                    # rename
+                    shutil.move(rand + "." + self.FILE_FORMAT, output_file)
+
+                    # tag file
+                    music_file.save_tags(output_file)
+
+                    print("Download successful: " + output_file)
+            except Exception as e:
+                print("Download failed: " + str(e) + " \nTries: " + str(tries))
+                tries -= 1
+            except KeyboardInterrupt:
+                print("Download interrupted\nTries: " + str(tries))
+                tries -= 1
+            except:
+                print("Download failed: no further details, \nTries: " + str(tries))
+                tries -= 1
+
+    def download_from_youtube(self, url: str, music_file: MusicFile, output_dir: str = ""):
+        print(f"Submitted URL: {url} to download queue.")
+        # deep copy to avoid reference
+        c_url = copy.deepcopy(url)
+        c_music_file = copy.deepcopy(music_file)
+        c_output_dir = copy.deepcopy(output_dir)
+        self.thread_pool.submit(self._do_download, c_url, c_music_file, c_output_dir)
 
 
 
