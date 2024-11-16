@@ -94,9 +94,9 @@ class YouTubeDownloader:
                 'preferredquality': '320',
             }],
         }
-        print("Downloading: " + url)
-        tries: int = 4
+        tries: int = 3
         while tries > 0:
+            print(f"Downloading: {url} with {tries} remaining tries")
             try:
                 with yt_dlp.YoutubeDL(options) as ydl:
                     ydl.download([url])
@@ -110,6 +110,7 @@ class YouTubeDownloader:
                     music_file.save_tags(output_file)
 
                     print("Download successful: " + output_file)
+                    return output_file
             except Exception as e:
                 print("Download failed: " + str(e) + " \nTries: " + str(tries))
                 tries -= 1
@@ -119,6 +120,8 @@ class YouTubeDownloader:
             except:
                 print("Download failed: no further details, \nTries: " + str(tries))
                 tries -= 1
+
+        return None
 
     def download_from_youtube(self, url: str, music_file: MusicFile, output_dir: str = ""):
         print(f"Submitted URL: {url} to download queue.")

@@ -80,35 +80,8 @@
         </item>
         <item row="2" column="0">
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>Artist</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Song</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QCheckBox" name="ResetArtist">
-            <property name="text">
-             <string>Reset</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="ArtistInput"/>
-          </item>
           <item row="2" column="0">
-           <widget class="QLabel" name="AlbumInput">
+           <widget class="QLabel" name="label_7">
             <property name="text">
              <string>Album</string>
             </property>
@@ -118,6 +91,42 @@
            <widget class="QLabel" name="label_6">
             <property name="text">
              <string>Genre</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="GenreInput"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Song</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Artist</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="ArtistInput"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="SongInput"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="AlbumInput"/>
+          </item>
+          <item row="0" column="2">
+           <widget class="QCheckBox" name="ResetArtist">
+            <property name="text">
+             <string>Reset</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -150,15 +159,6 @@
              <bool>true</bool>
             </property>
            </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLineEdit" name="GenreInput"/>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="SongInput"/>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="AlbumInput_2"/>
           </item>
          </layout>
         </item>

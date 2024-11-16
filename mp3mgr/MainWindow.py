@@ -24,8 +24,8 @@ class MainWindow(QMainWindow):
     def download(self):
         file = MusicFile()
         file.artist = self.ui.ArtistInput.text()
-        file.songname = self.ui.SongInput.text()
-        file.album = self.ui.AlbumInput_2.text()
+        file.song = self.ui.SongInput.text()
+        file.album = self.ui.AlbumInput.text()
         file.genre = self.ui.GenreInput.text()
 
         url = self.ui.URLInput.text()
@@ -40,7 +40,7 @@ class MainWindow(QMainWindow):
         if self.ui.ResetSong.isChecked():
             self.ui.SongInput.clear()
         if self.ui.ResetAlbum.isChecked():
-            self.ui.AlbumInput_2.clear()
+            self.ui.AlbumInput.clear()
         if self.ui.ResetGenre.isChecked():
             self.ui.GenreInput.clear()
 
