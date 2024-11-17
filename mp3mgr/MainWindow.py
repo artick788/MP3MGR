@@ -1,11 +1,13 @@
-from PyQt5.QtWidgets import QMainWindow, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QApplication
 from mp3mgr.ui.ui_MainWindow import Ui_MainWindow
 from mp3mgr.YouTubeDowloader import YouTubeDownloader, MusicFile
+import qdarktheme
 
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, app: QApplication):
         super().__init__()
+        self.app = app
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.setWindowTitle("MP3MGR")
@@ -22,6 +24,8 @@ class MainWindow(QMainWindow):
         self.ui.SaveButton.clicked.connect(self.save_file)
 
         self.file_tag = None
+
+        self.set_dark_mode()
 
     def open_folder(self):
         folder = QFileDialog.getExistingDirectory(self, "Select Folder")
@@ -72,3 +76,6 @@ class MainWindow(QMainWindow):
         self.file_tag.genre = self.ui.GenreInput_2.text()
 
         self.file_tag.save_tags(self.ui.FileLocationLabel.text())
+
+    def set_dark_mode(self):
+        qdarktheme.setup_theme("auto")
