@@ -10,12 +10,18 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.setWindowTitle("MP3MGR")
 
-        # Connect signals to slots
+        # Download From YouTube Page
         self.ui.OpenSaveFolder.clicked.connect(self.open_folder)
         self.ui.DownloadButton.clicked.connect(self.download)
         self.ui.ResetButton.clicked.connect(self.reset)
 
         self.ytd = YouTubeDownloader()
+
+        # Tag File Page
+        self.ui.OpenFileButton.clicked.connect(self.open_file)
+        self.ui.SaveButton.clicked.connect(self.save_file)
+
+        self.file_tag = None
 
     def open_folder(self):
         folder = QFileDialog.getExistingDirectory(self, "Select Folder")
@@ -45,3 +51,24 @@ class MainWindow(QMainWindow):
             self.ui.GenreInput.clear()
 
         self.ui.URLInput.clear()
+
+    def open_file(self):
+        file = QFileDialog.getOpenFileName(self, "Select File")
+        self.ui.FileLocationLabel.setText(file[0])
+        self.file_tag = MusicFile()
+        self.file_tag.read_tags(file[0])
+        self.ui.ArtistInput_2.setText(self.file_tag.artist)
+        self.ui.SongInput_2.setText(self.file_tag.song)
+        self.ui.AlbumInput_2.setText(self.file_tag.album)
+        self.ui.GenreInput_2.setText(self.file_tag.genre)
+
+    def save_file(self):
+        if self.file_tag is None:
+            return
+
+        self.file_tag.artist = self.ui.ArtistInput_2.text()
+        self.file_tag.song = self.ui.SongInput_2.text()
+        self.file_tag.album = self.ui.AlbumInput_2.text()
+        self.file_tag.genre = self.ui.GenreInput_2.text()
+
+        self.file_tag.save_tags(self.ui.FileLocationLabel.text())
