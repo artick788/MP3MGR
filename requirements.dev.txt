@@ -3,5 +3,6 @@ yt-dlp==2024.11.4
 ffmpeg-python==0.2.0
 pytaglib==3.0.0
 pyqtdarktheme==2.1.0
+selenium==4.26.1
 
 pyqt5-tools
