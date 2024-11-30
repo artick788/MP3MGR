@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1012</width>
-    <height>648</height>
+    <width>622</width>
+    <height>364</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -89,23 +89,6 @@
           <property name="bottomMargin">
            <number>20</number>
           </property>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_7">
-            <property name="text">
-             <string>Album</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>Genre</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLineEdit" name="GenreInput"/>
-          </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_4">
             <property name="text">
@@ -120,17 +103,8 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="ArtistInput"/>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="SongInput"/>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="AlbumInput"/>
-          </item>
-          <item row="0" column="2">
-           <widget class="QCheckBox" name="ResetArtist">
+          <item row="3" column="2">
+           <widget class="QCheckBox" name="ResetGenre">
             <property name="text">
              <string>Reset</string>
             </property>
@@ -138,6 +112,12 @@
              <bool>true</bool>
             </property>
            </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="SongInput"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="AlbumInput"/>
           </item>
           <item row="1" column="2">
            <widget class="QCheckBox" name="ResetSong">
@@ -149,6 +129,36 @@
             </property>
            </widget>
           </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Album</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="GenreInput"/>
+          </item>
+          <item row="0" column="2">
+           <widget class="QCheckBox" name="ResetArtist">
+            <property name="text">
+             <string>Reset</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Genre</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="ArtistInput"/>
+          </item>
           <item row="2" column="2">
            <widget class="QCheckBox" name="ResetAlbum">
             <property name="text">
@@ -159,13 +169,10 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="2">
-           <widget class="QCheckBox" name="ResetGenre">
+          <item row="3" column="3">
+           <widget class="QPushButton" name="FindGenre">
             <property name="text">
-             <string>Reset</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
+             <string>Find Genre</string>
             </property>
            </widget>
           </item>
@@ -283,6 +290,22 @@
         </item>
         <item>
          <layout class="QGridLayout" name="gridLayout_3">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_9">
+            <property name="text">
+             <string>Artist</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="SongInput_2"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="AlbumInput_2"/>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="ArtistInput_2"/>
+          </item>
           <item row="3" column="0">
            <widget class="QLabel" name="label_12">
             <property name="text">
@@ -290,17 +313,13 @@
             </property>
            </widget>
           </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="GenreInput_2"/>
+          </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_11">
             <property name="text">
              <string>Album</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_9">
-            <property name="text">
-             <string>Artist</string>
             </property>
            </widget>
           </item>
@@ -311,17 +330,12 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="ArtistInput_2"/>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="SongInput_2"/>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="AlbumInput_2"/>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLineEdit" name="GenreInput_2"/>
+          <item row="3" column="2">
+           <widget class="QPushButton" name="FindGenre_2">
+            <property name="text">
+             <string>Find Genre</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>

@@ -1,7 +1,24 @@
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QApplication
+from PyQt5.QtCore import QThread, pyqtSignal
 from mp3mgr.ui.ui_MainWindow import Ui_MainWindow
 from mp3mgr.YouTubeDowloader import YouTubeDownloader, MusicFile
+from mp3mgr.SearchGenre import search_genre
 import qdarktheme
+
+
+class SearchGenreThread(QThread):
+    result = pyqtSignal(list)
+
+    def __init__(self, artist: str, song: str):
+        super().__init__()
+        self.artist = artist
+        self.song = song
+
+    def run(self):
+        print(f"Searching genres for {self.artist} - {self.song}...")
+        genres = search_genre(self.artist, self.song)
+        print(f"found genres: {genres}")
+        self.result.emit(genres)
 
 
 class MainWindow(QMainWindow):
@@ -16,14 +33,18 @@ class MainWindow(QMainWindow):
         self.ui.OpenSaveFolder.clicked.connect(self.open_folder)
         self.ui.DownloadButton.clicked.connect(self.download)
         self.ui.ResetButton.clicked.connect(self.reset)
+        self.ui.FindGenre.clicked.connect(self.find_genre)
 
         self.ytd = YouTubeDownloader()
 
         # Tag File Page
         self.ui.OpenFileButton.clicked.connect(self.open_file)
         self.ui.SaveButton.clicked.connect(self.save_file)
+        self.ui.FindGenre_2.clicked.connect(self.find_genre_2)
 
         self.file_tag = None
+
+        self.search_thread = None
 
         self.set_dark_mode()
 
@@ -32,6 +53,8 @@ class MainWindow(QMainWindow):
         self.ui.SaveFolderLabel.setText(folder)
 
     def download(self):
+        if self.ui.URLInput.text() == "":
+            return
         file = MusicFile()
         file.artist = self.ui.ArtistInput.text()
         file.song = self.ui.SongInput.text()
@@ -79,3 +102,34 @@ class MainWindow(QMainWindow):
 
     def set_dark_mode(self):
         qdarktheme.setup_theme("auto")
+
+    def set_genres(self, genres):
+        self.ui.GenreInput.setText(", ".join(genres))
+        self.ui.FindGenre.setEnabled(True)
+        self.ui.GenreInput.setEnabled(True)
+        self.ui.FindGenre_2.setEnabled(True)
+
+    # freezes the UI
+    def find_genre(self):
+        if self.ui.ArtistInput.text() == "" or self.ui.SongInput.text() == "":
+            return
+        self.ui.FindGenre.setEnabled(False)
+        self.ui.GenreInput.setEnabled(False)
+
+        # Start the search thread
+        self.search_thread = SearchGenreThread(self.ui.ArtistInput.text(), self.ui.SongInput.text())
+        self.search_thread.result.connect(self.set_genres)
+        self.search_thread.start()
+
+    def find_genre_2(self):
+        if self.ui.ArtistInput_2.text() == "" or self.ui.SongInput_2.text() == "":
+            return
+        self.ui.FindGenre_2.setEnabled(False)
+        self.ui.GenreInput_2.setEnabled(False)
+
+        # Start the search thread
+        self.search_thread = SearchGenreThread(self.ui.ArtistInput_2.text(), self.ui.SongInput_2.text())
+        self.search_thread.result.connect(self.set_genres)
+        self.search_thread.start()
+
+
